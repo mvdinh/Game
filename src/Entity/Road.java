@@ -1,4 +1,4 @@
-package dino;
+package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics;

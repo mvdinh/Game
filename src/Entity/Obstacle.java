@@ -1,37 +1,48 @@
-package dino;
+package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Obstacle {
+	private BufferedImage img;
 	private int x, y, width, height;
 	private int speed;
 	private Rectangle rect;
-	public Rectangle getRect() {
-		return rect;
-	}
+	
 
-	public void setRect(Rectangle rect) {
-		this.rect = rect;
-	}
-
-	public Obstacle(int x, int y, int width, int height) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		rect = new Rectangle(x, y, width, height);
+	public Obstacle() {
+		try {
+            img = ImageIO.read(new File("src/img/xr.png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+		x=600;
+		y=150;
+		width= img.getWidth();
+		height= img.getHeight();
 		speed= 8;
+		rect = new Rectangle(x, y, width, height);
 	}
 	
 	public void Update(){
 		
         setX(this.getX()- speed);
-        this.rect.setLocation((int)this.getX(),(int)this.getY());
-    }
+        this.rect.x= getX();
+        this.rect.y= getY();
+        this.rect.width= getWidth();
+        this.rect.height= getHeight();
+        
+    } 
+	 public void paint(Graphics g) {
+	     g.drawImage(img, getX(), getY(), null);
+	    }
 	public int getSpeed() {
 		return speed;
 	}
@@ -69,8 +80,7 @@ public class Obstacle {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-//	public void Paint(Graphics g) {
-//		g.setColor(Color.black);
-//		g.fillRect(x, y, width, height);
-//	}
+	public Rectangle getRect() {
+		return rect;
+	}
 }

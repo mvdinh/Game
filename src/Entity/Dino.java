@@ -1,4 +1,4 @@
-package dino;
+  package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,6 +18,8 @@ public class Dino {
 	private Animation a ;
 	private BufferedImage Image =null;
 	private int x, y, width, height;
+	
+	
 	private int JumpSpeed;
 	private Rectangle rect;
 	private static int gravitation =3;
@@ -36,16 +38,27 @@ public class Dino {
 	public void setLive(boolean isLive) {
 		this.isLive = isLive;
 	}
-	public Dino(int x, int y, int width, int height, int jumpSpeed) {
-		super();
-		
-            
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.rect = new Rectangle(x, y, width, height); 
-		JumpSpeed = jumpSpeed;
+	public Dino() {
+		try {
+	         Image = ImageIO.read(new File("src/img/anh_cuoi_ngua.png"));
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+		int x1= Image.getWidth()/3;
+	    a = new Animation(100);
+	    AFrame f;
+	    f = new AFrame(0 ,0, x1, 35);
+	    a.addFrame(f);
+	    f = new AFrame(x1,0,x1, 35 );
+	    a.addFrame(f);
+	    f = new AFrame(x1*2 ,0, x1, 35);
+	    a.addFrame(f);
+	    x=100;
+	    y=165;
+	    width=x1;
+	    height=Image.getHeight();
+	    JumpSpeed=10;
+	    rect = new Rectangle(x, y, width, height);
 	}
 	public int getX() {
 		return x;
@@ -85,28 +98,32 @@ public class Dino {
 	}
 	
 	public void update() {
+		a.Update();
 		this.setY((int)this.getY() - JumpSpeed); 
 		this.JumpSpeed -= Dino.gravitation;
-		this.rect.setLocation((int)this.getX(),(int)this.getY());
+		
 		if(this.getY() >= 165) 
 		{
 			this.setCount(0);
 			this.setY(165);
 			this.JumpSpeed = 0;
 		}
+		int x1= Image.getWidth()/3;
+		this.rect.x = getX();
+        this.rect.y = getY();
+        this.rect.width= x1;
+        this.rect.height= getHeight();
 	}
 	public void jump() {
 		count++;   
 	}
 
+	
+	public void Paint(Graphics g) {
+		 a.paintAnimation((int)getX(), (int)getY(), Image ,g);
+	}
 	public Rectangle getRect() {
 		return rect;
 	}
-
-	public void setRect(Rectangle rect) {
-		this.rect = rect;
-	}
-	
-	
 	
 }
